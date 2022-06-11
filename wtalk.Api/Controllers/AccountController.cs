@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 using wtalk.Cqrs.Commands;
+using wtalk.Cqrs.Commands.Account;
 
 namespace wtalk.Controllers
 {
@@ -19,14 +20,27 @@ namespace wtalk.Controllers
         {
             _mediator = mediator;
         }
-        [HttpPost]
+        [HttpPost("signup")]
         [AllowAnonymous]
         [SwaggerOperation(Summary = "Signup user.", Description = "Signup user.")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateUser(SignUpUserCommand request)
+        public async Task<IActionResult> SignUp(SignUpUserCommand request)
+        {
+            var response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        [SwaggerOperation(Summary = "Sign in user.", Description = "Sign in user.")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SignIn(SignInUserCommand request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);

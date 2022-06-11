@@ -32,8 +32,6 @@ namespace Wtalk.Handlers.User
 
         public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            int companyId = _tokenService.ReadCompanyId(_httpContextAccessor.HttpContext!.Request.Headers["Authorization"][0]);
-
 
             var user = await _unitOfWork.UserRepository.FindUserByEmailAsync(request.Email);
             if (user == null) user = _mapper.Map<CreateUserCommand, Core.Entities.User>(request);

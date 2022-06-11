@@ -37,6 +37,7 @@ namespace Wtalk.Handlers.Account
             var user = _mapper.Map<SignUpUserCommand, Core.Entities.User>(request);
             user.Salt = _dataProtection.GenerateSalt();
             user.Password = _dataProtection.Hash(request.Password, user.Salt);
+            
             if (user == null) user = _mapper.Map<SignUpUserCommand, Core.Entities.User>(request);
         
             if (user.Id == 0) _unitOfWork.Repository<Core.Entities.User>()?.Add(user);
