@@ -5,12 +5,13 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using wtalk.Cqrs.Commands;
 using Wtalk.Api.Cqrs.Commands.User;
 using Wtalk.Core.Interfaces;
 
-namespace Wtalk.Handlers.User
+namespace Wtalk.Handlers.Account
 {
-    public class SignUpUserHandler : IRequestHandler<CreateUserCommand, Unit>
+    public class SignUpUserHandler : IRequestHandler<SignUpUserCommand, Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -20,7 +21,7 @@ namespace Wtalk.Handlers.User
         private readonly IDataProtection _dataProtection;
         private readonly IConfiguration _config;
 
-        public SignUpUserHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration config, ITokenService tokenService, IDataProtection dataProtection)
+        public SignUpUserHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration config, ITokenService tokenService,IDataProtection dataProtection)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -30,13 +31,13 @@ namespace Wtalk.Handlers.User
             _dataProtection = dataProtection;
         }
 
-        public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(SignUpUserCommand request, CancellationToken cancellationToken)
         {
-            int companyId = _tokenService.ReadCompanyId(_httpContextAccessor.HttpContext!.Request.Headers["Authorization"][0]);
 
-
-            var user = await _unitOfWork.UserRepository.FindUserByEmailAsync(request.Email);
-            if (user == null) user = _mapper.Map<CreateUserCommand, Core.Entities.User>(request);
+            var user = _mapper.Map<SignUpUserCommand, Core.Entities.User>(request);
+            user.Salt = _dataProtection.GenerateSalt();
+            user.Password = _dataProtection.Hash(request.Password, user.Salt);
+            if (user == null) user = _mapper.Map<SignUpUserCommand, Core.Entities.User>(request);
         
             if (user.Id == 0) _unitOfWork.Repository<Core.Entities.User>()?.Add(user);
 

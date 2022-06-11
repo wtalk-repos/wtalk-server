@@ -33,14 +33,15 @@ namespace Wtalk.Infrastracture.Data
             }
         }
 
-        public Task<int> Complete()
+        public async Task<int> Complete()
         {
-            throw new NotImplementedException();
+            return await _writeContext.SaveChangesAsync();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+
+            _writeContext.Dispose();
         }
 
         public IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity
