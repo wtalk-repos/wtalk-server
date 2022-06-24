@@ -20,6 +20,7 @@ namespace wtalk.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpPost("signup")]
         [AllowAnonymous]
         [SwaggerOperation(Summary = "Signup user.", Description = "Signup user.")]
@@ -33,7 +34,7 @@ namespace wtalk.Controllers
             return Ok(response);
         }
 
-        [HttpPost("login")]
+        [HttpPost("signin")]
         [AllowAnonymous]
         [SwaggerOperation(Summary = "Sign in user.", Description = "Sign in user.")]
         [ProducesResponseType(StatusCodes.Status200OK)]

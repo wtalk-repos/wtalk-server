@@ -35,7 +35,7 @@ namespace Wtalk.Handlers.User
 
             var user = await _unitOfWork.UserRepository.FindUserByEmailAsync(request.Email);
             if (user == null) user = _mapper.Map<CreateUserCommand, Core.Entities.User>(request);
-        
+            
             if (user.Id == 0) _unitOfWork.Repository<Core.Entities.User>()?.Add(user);
 
             await _unitOfWork.Complete();

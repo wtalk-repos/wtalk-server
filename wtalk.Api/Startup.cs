@@ -42,6 +42,16 @@ namespace wtalk
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddMediatR(Assembly.GetExecutingAssembly(), typeof(Program).Assembly);
             services.AddIdentityServices(Configuration);
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "DefaultCORS",
+                                  policy =>
+                                  {
+                                      policy.AllowAnyOrigin();
+                                      policy.AllowAnyHeader();
+                                      policy.AllowAnyHeader();
+                                  });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,10 +65,12 @@ namespace wtalk
             }
 
             app.UseRouting();
+
+            app.UseCors("DefaultCORS");
+
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseAuthorization();
-
+     
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
