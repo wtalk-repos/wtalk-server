@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Wtalk.Core.Entities;
 using Wtalk.Core.Specifications;
+using System.Linq;
 
-namespace Wtalk.Infrastracture.Data
+namespace Wtalk.Infrastructure.Data
 {
-    public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
+    public class SpecificationEvaluator<TEntity> where TEntity : class
     {
         public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery, ISpecification<TEntity> spec)
         {
@@ -40,6 +35,5 @@ namespace Wtalk.Infrastracture.Data
 
             return query;
         }
-
     }
 }

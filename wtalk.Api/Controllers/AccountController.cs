@@ -21,7 +21,7 @@ namespace wtalk.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("signup")]
+        [HttpPost("register")]
         [AllowAnonymous]
         [SwaggerOperation(Summary = "Signup user.", Description = "Signup user.")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -34,7 +34,7 @@ namespace wtalk.Controllers
             return Ok(response);
         }
 
-        [HttpPost("signin")]
+        [HttpPost("login")]
         [AllowAnonymous]
         [SwaggerOperation(Summary = "Sign in user.", Description = "Sign in user.")]
         [ProducesResponseType(StatusCodes.Status200OK)]

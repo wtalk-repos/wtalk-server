@@ -9,7 +9,7 @@ namespace Wtalk.Infrastracture.Data.Context
 {
     public class DbReadContext:WtalkContext
     {
-        public DbReadContext(DbContextOptions options):base(options)
+        public DbReadContext(DbContextOptions<DbReadContext> options):base(options)
         {
 
         }

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Wtalk.Api.Cqrs.Commands.User;
 using Wtalk.Core.Interfaces;
+using Wtalk.Core.Interfaces.Services;
 
 namespace Wtalk.Handlers.User
 {
@@ -17,10 +18,10 @@ namespace Wtalk.Handlers.User
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITokenService _tokenService;
-        private readonly IDataProtection _dataProtection;
+        private readonly IDataProtectionService _dataProtection;
         private readonly IConfiguration _config;
 
-        public SignUpUserHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration config, ITokenService tokenService, IDataProtection dataProtection)
+        public SignUpUserHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration config, ITokenService tokenService, IDataProtectionService dataProtection)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

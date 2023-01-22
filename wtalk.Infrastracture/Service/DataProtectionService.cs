@@ -8,14 +8,15 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Wtalk.Core.Interfaces;
+using Wtalk.Core.Interfaces.Services;
 
 namespace Wtalk.Infrastracture.Service
 {
-    public class DataProtection : IDataProtection
+    public class DataProtectionService : IDataProtectionService
     {
         private readonly IConfiguration _config;
 
-        public DataProtection(IConfiguration config)
+        public DataProtectionService(IConfiguration config)
         {
             _config = config;
         }

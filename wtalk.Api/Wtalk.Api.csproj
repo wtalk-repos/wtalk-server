@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Cqrs\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\wtalk.Core\Wtalk.Core.csproj" />
     <ProjectReference Include="..\wtalk.Infrastracture\Wtalk.Infrastracture.csproj" />
   </ItemGroup>

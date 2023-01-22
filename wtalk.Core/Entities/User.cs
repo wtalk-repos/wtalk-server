@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Wtalk.Core.Entities
 {
-    public class User:BaseEntity
+    public class User : BaseEntity, ITrackable
     {
+        public string? Username{ get; set; }
         [Column(TypeName = "varchar(100)")]
         public string? Email { get; set; }
 
@@ -23,7 +22,8 @@ namespace Wtalk.Core.Entities
 
         [Column(TypeName = "varchar(100)")]
         public string? Salt { get; set; }
-        public byte[]? Avatar { get; set; }
+        public UserAvatar Avatar { get; set; }
+        public List<UserFriend> UserFriends { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

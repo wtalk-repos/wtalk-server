@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using wtalk.Cqrs.Commands;
 using Wtalk.Api.Cqrs.Commands.User;
 using Wtalk.Core.Interfaces;
+using Wtalk.Core.Interfaces.Services;
 
 namespace Wtalk.Handlers.Account
 {
@@ -18,10 +19,10 @@ namespace Wtalk.Handlers.Account
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITokenService _tokenService;
-        private readonly IDataProtection _dataProtection;
+        private readonly IDataProtectionService _dataProtection;
         private readonly IConfiguration _config;
 
-        public SignUpUserHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration config, ITokenService tokenService,IDataProtection dataProtection)
+        public SignUpUserHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration config, ITokenService tokenService, IDataProtectionService dataProtection)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -37,7 +38,7 @@ namespace Wtalk.Handlers.Account
             var user = _mapper.Map<SignUpUserCommand, Core.Entities.User>(request);
             user.Salt = _dataProtection.GenerateSalt();
             user.Password = _dataProtection.Hash(request.Password, user.Salt);
-            
+
             if (user == null) user = _mapper.Map<SignUpUserCommand, Core.Entities.User>(request);
         
             if (user.Id == 0) _unitOfWork.Repository<Core.Entities.User>()?.Add(user);

@@ -6,7 +6,7 @@ namespace wtalk.Cqrs.Commands.Account
 {
     public class SignInUserCommand : IRequest<SignInResponse>
     {
-        public string Email { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
     }
 
@@ -15,7 +15,7 @@ namespace wtalk.Cqrs.Commands.Account
         public SignInCommandValidator()
         {
             CascadeMode = CascadeMode.Stop;
-            RuleFor(x => x.Email).NotEmpty().EmailAddress();
+            //RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.Password).NotEmpty();
 
         }

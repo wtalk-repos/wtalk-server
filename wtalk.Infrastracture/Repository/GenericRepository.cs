@@ -10,6 +10,7 @@ using Wtalk.Core.Interfaces;
 using Wtalk.Core.Specifications;
 using Wtalk.Infrastracture.Data;
 using Wtalk.Infrastracture.Data.Context;
+using Wtalk.Infrastructure.Data;
 
 namespace Wtalk.Infrastracture.Repository
 {

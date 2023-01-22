@@ -10,6 +10,7 @@ using wtalk.Cqrs.Commands.Account;
 using Wtalk.Api.Cqrs.Commands.User;
 using Wtalk.Api.Errors;
 using Wtalk.Core.Interfaces;
+using Wtalk.Core.Interfaces.Services;
 using Wtalk.Core.Responses.Account;
 
 namespace Wtalk.Handlers.Account
@@ -21,10 +22,10 @@ namespace Wtalk.Handlers.Account
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITokenService _tokenService;
-        private readonly IDataProtection _dataProtection;
+        private readonly IDataProtectionService _dataProtection;
         private readonly IConfiguration _config;
 
-        public SingInUserHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration config, ITokenService tokenService,IDataProtection dataProtection)
+        public SingInUserHandler(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration config, ITokenService tokenService, IDataProtectionService dataProtection)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -37,7 +38,7 @@ namespace Wtalk.Handlers.Account
         public async Task<SignInResponse> Handle(SignInUserCommand request, CancellationToken cancellationToken)
         {
 
-            var user = await _unitOfWork.UserRepository.FindUserByEmailAsync(request.Email);
+            var user = await _unitOfWork.UserRepository.FindUserByUsernameAsync(request.Username);
             if (user == null) throw new UnauthorizedException("401", "Invalid username or password.");
 
             var hashedPassword = _dataProtection.Hash(request.Password, user.Salt!);

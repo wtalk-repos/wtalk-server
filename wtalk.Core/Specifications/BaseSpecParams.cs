@@ -1,4 +1,4 @@
-﻿namespace TruckAssist.Core.Specifications
+﻿namespace Wtalk.Core.Specifications
 {
     public  class BaseSpecParams
     {

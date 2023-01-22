@@ -10,5 +10,7 @@ namespace Wtalk.Core.Interfaces.Repositories
     public interface IUserRepository:IGenericRepository<User>
     {
         Task<User?> FindUserByEmailAsync(string email);
+        Task<User> FindUserByUsernameAsync(string username);
+
     }
 }

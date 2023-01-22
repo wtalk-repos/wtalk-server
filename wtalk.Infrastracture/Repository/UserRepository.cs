@@ -18,7 +18,11 @@ namespace Wtalk.Infrastracture.Repository
         }
         public async Task<User> FindUserByEmailAsync(string email)
         {
-            return await _writeContext.User.Where(x => x.Email == email).FirstOrDefaultAsync();
+            return await _writeContext.Users.Where(x => x.Email == email).FirstOrDefaultAsync();
+        }
+        public async Task<User> FindUserByUsernameAsync(string username)
+        {
+            return await _writeContext.Users.Where(x => x.Username == username).FirstOrDefaultAsync();
         }
     }
 }
