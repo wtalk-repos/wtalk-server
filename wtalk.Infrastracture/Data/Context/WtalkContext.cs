@@ -25,10 +25,7 @@ namespace Wtalk.Infrastracture.Data.Context
            
             modelBuilder.Entity<UserFriend>().HasOne(x => x.Friend);
 
-           
-
             modelBuilder.Entity<UserFriend>().HasKey(e => new { e.UserId, e.FriendId });
-
     
         }
     }
