@@ -6,7 +6,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using wtalk.Cqrs.Commands;
-using Wtalk.Api.Cqrs.Commands.User;
 using Wtalk.Core.Interfaces;
 using Wtalk.Core.Interfaces.Services;
 

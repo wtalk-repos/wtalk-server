@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 using Wtalk.Cqrs.Queries;
-using Wtalk.Api.Cqrs.Commands.User;
 using Wtalk.Core.Specifications.Friend;
+using wtalk.Cqrs.Commands.User;
 
 namespace wtalk.Controllers
 {

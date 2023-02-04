@@ -7,13 +7,14 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using TruckAssist.Api.Extensions;
+using wtalk.HubConfig;
 using Wtalk.Api.Extensions;
 using Wtalk.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(config =>
@@ -36,18 +37,43 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = true,
             ValidateAudience = false
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                // If the request is for our hub...
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) &&
+                    (path.StartsWithSegments("/api/hubs/chat")))
+                {
+                    // Read the token out of the query string
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", (policy) =>
     {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        policy.SetIsOriginAllowed((host)=>true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     });
 });
 builder.Services.AddMvc(setup =>
 {
 
 });
+builder.Services.AddControllers();
+
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+
+});
+
 var app = builder.Build();
 
 app.UseCors("CorsPolicy");
@@ -62,11 +88,17 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<ChatHub>("api/hubs/chat");
+});
 
-app.MapControllers();
 
 app.Run();

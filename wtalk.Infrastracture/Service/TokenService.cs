@@ -21,15 +21,12 @@ namespace Wtalk.Infrastracture.Service
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
         }
 
-        public string CreateToken(int userId, int companyId, string email)
+        public string CreateToken(int userId, string email)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, email),
                 new Claim("UserId", userId.ToString()),
-                new Claim("CompanyId", companyId.ToString()),
-
-
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

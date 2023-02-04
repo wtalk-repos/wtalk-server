@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using wtalk.Cqrs.Commands;
 using wtalk.Cqrs.Commands.Account;
-using Wtalk.Api.Cqrs.Commands.User;
 using Wtalk.Api.Errors;
 using Wtalk.Core.Interfaces;
 using Wtalk.Core.Interfaces.Services;
@@ -48,7 +47,7 @@ namespace Wtalk.Handlers.Account
             {
                 FirstName = user.FirstName!,
                 LastName = user.LastName!,
-                Token = _tokenService.CreateToken(user.Id, user.Id, user.Email!)
+                Token = _tokenService.CreateToken(user.Id, user.Email!)
             };
         }
     }

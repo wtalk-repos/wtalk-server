@@ -5,7 +5,7 @@ namespace Wtalk.Core.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(int userId, int companyId , string email);
+        string CreateToken(int userId, string email);
         IEnumerable<Claim> ReadToken(string token);
         int ReadCompanyId(string token);
         int ReadUserId(string token);

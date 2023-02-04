@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Wtalk.Api.Cqrs.Commands.User;
+using wtalk.Cqrs.Commands.User;
 using Wtalk.Core.Interfaces;
 using Wtalk.Core.Interfaces.Services;
 
