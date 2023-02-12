@@ -1,51 +1,48 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
-using Wtalk.Cqrs.Queries;
-using Wtalk.Core.Specifications.Friend;
-using wtalk.Cqrs.Commands.User;
+using wtalk.Cqrs.Commands.Message;
+using wtalk.Cqrs.Queries.Message;
+using Wtalk.Core.Responses.Message;
+using Wtalk.Core.Specifications.Message;
 
 namespace wtalk.Controllers
 {
-    [Route("api/user")]
+    [Route("api/message")]
     [ApiController]
     [Authorize]
-    public class UserController : ControllerBase
+    public class MessageController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public UserController(IMediator mediator)
+        public MessageController(IMediator mediator)
         {
             _mediator = mediator;
         }
-
         [HttpPost]
-        [SwaggerOperation(Summary = "Create user.", Description = "Create user.")]
+        [SwaggerOperation(Summary = "Send and persist message.", Description = "Send and persist message")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateUser(CreateUserCommand request)
+        public async Task<ActionResult<CreateMessageResponse>> SendAndPersistMessageCommand(SendAndPersistMessageCommand request)
         {
             var response = await _mediator.Send(request);
             return Ok(response);
         }
 
-        [HttpGet("friends/list")]
-        [SwaggerOperation(Summary ="Get friends list", Description ="Get users friends list; filter by favourties")]
+        [HttpGet("list")]
+        [SwaggerOperation(Summary = "Get message list.", Description = "Get message list.")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetFriendsList([FromQuery]FriendSpecParams request)
+        public async Task<ActionResult<GetMessageListResponse>> GetMessageList([FromQuery] MessageSpecParams specParams)
         {
-            var response = await _mediator.Send(new GetFriendsListQuery
-            {
-                SpecParams=request
-            });
+            var response = await _mediator.Send(new GetMessageListQuery { MessageSpecParams = specParams });
             return Ok(response);
         }
     }

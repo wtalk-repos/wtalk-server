@@ -18,6 +18,7 @@ namespace Wtalk.Infrastracture.Data.Context
         public DbSet<User> Users { get; set; }
         public DbSet<UserAvatar> UserAvatars { get; set; }
         public DbSet<UserFriend> UserFriends { get; set; }
+        public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

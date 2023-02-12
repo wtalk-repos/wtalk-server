@@ -13,5 +13,9 @@ namespace Wtalk.Core.Specifications.User
             Criteria = (e => e.Id == id);
             AddInclude("UserFriends.Friend");
         }
+        public UserSpecification(UserSpecParams userSpecParams)
+        {
+            ApplyPaging(userSpecParams.PageSize * (userSpecParams.PageIndex - 1), userSpecParams.PageSize);
+        }
     }
 }

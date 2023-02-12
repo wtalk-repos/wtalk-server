@@ -18,6 +18,7 @@ namespace Wtalk.Api.Extensions
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
             services.AddScoped(typeof(IReadGenericRepository<>), (typeof(ReadGenericRepository<>)));
             services.AddScoped<IDataProtectionService, DataProtectionService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
         }

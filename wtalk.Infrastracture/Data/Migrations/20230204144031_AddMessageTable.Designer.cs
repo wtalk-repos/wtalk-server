@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wtalk.Infrastracture.Data.Context;
 
@@ -10,9 +11,10 @@ using Wtalk.Infrastracture.Data.Context;
 namespace Wtalk.Infrastracture.Data.Migrations
 {
     [DbContext(typeof(DbWriteContext))]
-    partial class DbWriteContextModelSnapshot : ModelSnapshot
+    [Migration("20230204144031_AddMessageTable")]
+    partial class AddMessageTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +35,6 @@ namespace Wtalk.Infrastracture.Data.Migrations
 
                     b.Property<string>("Text")
                         .HasColumnType("longtext");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
