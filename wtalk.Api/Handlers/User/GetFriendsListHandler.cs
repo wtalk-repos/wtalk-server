@@ -9,13 +9,13 @@ using Wtalk.Infrastracture.Service;
 using Microsoft.AspNetCore.Http;
 using Wtalk.Core.Specifications.User;
 using System.Linq;
-using Wtalk.Core.Helpers.SpargelTracker.Core.Helpers;
 using AutoMapper;
 using System.Collections.Generic;
 using Wtalk.Infrastracture.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Wtalk.Core.Entities;
 using Wtalk.Core.Interfaces.Repositories;
+using Wtalk.Core.Helpers;
 
 namespace wtalk.Handlers.User
 {
@@ -37,16 +37,19 @@ namespace wtalk.Handlers.User
         }
         public async Task<FriendListResponse> Handle(GetFriendsListQuery request, CancellationToken cancellationToken)
         {
-     
+
             var token = _httpContextAccessor.HttpContext!.Request.Headers["Authorization"][0];
             var userId = _tokenService.ReadUserId(token);
             var userSpecification = new UserSpecification(userId);
             var user = await _userRepository.GetEntityWithSpec(userSpecification);
             if (user == null) throw new BadHttpRequestException("User not found");
-            var friends = user.UserFriends.Where(e=>e.UserId==userId).Select(e => e.Friend);
+
+            var friends = user.UserFriends.Where(e => e.UserId == userId).Select(e => e.Friend);
+            friends = friends.Skip(request.SpecParams.PageSize * (request.SpecParams.PageIndex - 1)).Take(request.SpecParams.PageSize);
+
             var friendsResponses = _mapper.Map<IReadOnlyList<FriendResponse>>(friends);
             var totalItems = friendsResponses.Count;
-            var pagination = new Pagination<FriendResponse>(friendsResponses, request.SpecParams.PageIndex, totalItems, request.SpecParams.PageSize);
+            var pagination = new Pagination<FriendResponse>(request.SpecParams.PageIndex, request.SpecParams.PageSize, totalItems, friendsResponses);
             return new FriendListResponse
             {
                 Pagination = pagination
