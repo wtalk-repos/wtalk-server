@@ -23,9 +23,7 @@ namespace wtalk.HubConfig
         public async override Task OnConnectedAsync()
         {
             var userId = Context.User.GetUserId();
-            System.Console.WriteLine(userId);
-            await Clients.User(Context.ConnectionId).SendAsync("newMessage", "Welcome");
-            await Clients.All.SendAsync("newMessage", "Welcome bla");
+
             await Groups.AddToGroupAsync(Context.ConnectionId, "user-" + userId);
         }
     }
