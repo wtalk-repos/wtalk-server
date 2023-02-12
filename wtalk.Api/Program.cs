@@ -62,9 +62,9 @@ builder.Services.AddCors(options =>
         policy.SetIsOriginAllowed((host)=>true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     });
 });
-builder.Services.AddMvc(setup =>
+builder.Services.AddMvc().AddNewtonsoftJson(options =>
 {
-
+    options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
 });
 builder.Services.AddControllers();
 
