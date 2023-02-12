@@ -13,6 +13,7 @@ namespace Wtalk.Core.Entities
         public string Text { get; set; }
         public User Receiver { get; set; }
         public int ReceiverId { get; set; }
+        public DateTime Timestamp { get; set; }
 
     }
 }
