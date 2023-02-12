@@ -34,6 +34,9 @@ namespace Wtalk.Infrastracture.Data.Migrations
                     b.Property<string>("Text")
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ReceiverId");
