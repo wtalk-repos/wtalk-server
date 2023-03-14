@@ -5,6 +5,7 @@ using wtalk.Cqrs.Commands.User;
 using Wtalk.Core.Entities;
 using Wtalk.Core.Responses.Friend;
 using Wtalk.Core.Responses.Message;
+using Wtalk.Core.Responses.User;
 
 namespace Wtalk.Helpers
 {
@@ -15,6 +16,7 @@ namespace Wtalk.Helpers
             #region User
             CreateMap<CreateUserCommand, User>();
             CreateMap<User, FriendResponse>();
+            CreateMap<User, SearchUserResultResponse>();
             #endregion
             #region Account
             CreateMap<SignUpUserCommand, User>();

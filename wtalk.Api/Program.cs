@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TruckAssist.Api.Extensions;
 using wtalk.HubConfig;
@@ -59,14 +60,18 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", (policy) =>
     {
-        policy.SetIsOriginAllowed((host)=>true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+        policy.SetIsOriginAllowed((host) => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     });
 });
 builder.Services.AddMvc().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
 });
-builder.Services.AddControllers();
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddSignalR(options =>
 {

@@ -13,12 +13,14 @@ namespace Wtalk.Infrastracture.Data.Context
     {
         public WtalkContext(DbContextOptions options) : base(options)
         {
-
+           
         }
         public DbSet<User> Users { get; set; }
         public DbSet<UserAvatar> UserAvatars { get; set; }
         public DbSet<UserFriend> UserFriends { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

@@ -29,4 +29,8 @@
 		<ProjectReference Include="..\wtalk.Infrastracture\Wtalk.Infrastracture.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Handlers\Friend\" />
+	</ItemGroup>
+
 </Project>
